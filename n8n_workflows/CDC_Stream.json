@@ -1,0 +1,98 @@
+{
+  "name": "CDC Stream",
+  "nodes": [
+    {
+      "parameters": {
+        "topic": "DockerServer.public.demo_table",
+        "groupId": "n8n-kafka",
+        "useSchemaRegistry": true,
+        "schemaRegistryUrl": "http://schema-registry:8081",
+        "options": {
+          "autoCommitThreshold": 1
+        }
+      },
+      "id": "4b1fbc85-5e73-4ac0-8612-ecd00100fc35",
+      "name": "Kafka Trigger",
+      "type": "n8n-nodes-base.kafkaTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -260,
+        440
+      ],
+      "credentials": {
+        "kafka": {
+          "id": "KXimYs6CfPmZYIth",
+          "name": "Kafka account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "html",
+        "options": {}
+      },
+      "id": "b9cc5bd0-2f01-4b06-9376-9c8b91ef3f30",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/dev/shm/{{ $('Kafka Trigger').item.json.message.source.txId }}.txt",
+        "options": {}
+      },
+      "id": "15c3e804-be76-4e2b-9ec0-83e282da83fe",
+      "name": "Read/Write Files from Disk",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        160,
+        460
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Kafka Trigger": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "e20e64f0-2693-4cb5-a561-3e2a21913397",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d9f02c07544ab57277c074eaa312e5dd76cb4d885ad5a4dae8b4d9da0024081d"
+  },
+  "id": "hKRb39HyrSGMtB0p",
+  "tags": []
+}

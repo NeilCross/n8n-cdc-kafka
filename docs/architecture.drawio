@@ -1,0 +1,137 @@
+<mxfile host="65bd71144e">
+    <diagram id="n8n-cdc-architecture" name="n8n CDC Architecture">
+        <mxGraphModel dx="663" dy="968" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="group-n8n" value="n8n Core Services" style="swimlane;fontStyle=0;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="50" width="200" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="n8n-app" value="n8n App&#xa;(Port 5678)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-n8n" vertex="1">
+                    <mxGeometry x="20" y="40" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="n8n-worker" value="n8n Worker" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-n8n" vertex="1">
+                    <mxGeometry x="20" y="100" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="redis" value="Redis&#xa;(Port 6379)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-n8n" vertex="1">
+                    <mxGeometry x="20" y="160" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="group-db" value="Database Layer" style="swimlane;fontStyle=0;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="50" width="200" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="postgres" value="PostgreSQL&#xa;(wal_level=logical)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-db" vertex="1">
+                    <mxGeometry x="20" y="40" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="debezium" value="Debezium&#xa;PostgreSQL Connector" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-db" vertex="1">
+                    <mxGeometry x="20" y="100" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn3" value="" style="endArrow=classic;html=1;" parent="group-db" source="postgres" target="debezium" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="group-kafka" value="Kafka Ecosystem" style="swimlane;fontStyle=0;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="280" width="370" height="220" as="geometry">
+                        <mxRectangle x="560" y="40" width="130" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="kafka-connect" value="Kafka Connect&#xa;(Port 8083)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-kafka" vertex="1">
+                    <mxGeometry x="20" y="50" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kafka-broker" value="Kafka Broker&#xa;(Ports 9091 &amp; 9092)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-kafka" vertex="1">
+                    <mxGeometry x="20" y="110" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="zookeeper" value="Zookeeper&#xa;(Port 2181)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-kafka" vertex="1">
+                    <mxGeometry x="190" y="170" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="schema-registry" value="Schema Registry&#xa;(Port 8081)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-kafka" vertex="1">
+                    <mxGeometry x="20" y="170" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn5" value="" style="endArrow=classic;html=1;" parent="group-kafka" source="kafka-broker" target="schema-registry" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="group-monitoring" value="Monitoring Tools" style="swimlane;fontStyle=0;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="50" width="200" height="220" as="geometry">
+                        <mxRectangle x="300" y="270" width="130" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="adminer" value="Adminer&#xa;(Port 7775)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-monitoring" vertex="1">
+                    <mxGeometry x="20" y="40" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kafka-connect-ui" value="Kafka Connect UI&#xa;(Port 8000)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-monitoring" vertex="1">
+                    <mxGeometry x="20" y="100" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="edgeStyle=none;html=1;" edge="1" parent="group-monitoring" source="kowl" target="kafka-connect-ui">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kowl" value="Kowl UI&#xa;(Port 8080)" style="rounded=1;whiteSpace=wrap;html=1;" parent="group-monitoring" vertex="1">
+                    <mxGeometry x="20" y="160" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn1" value="" style="endArrow=classic;html=1;" parent="1" source="n8n-app" target="postgres" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn2" value="" style="endArrow=classic;html=1;" parent="1" source="n8n-worker" target="postgres" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn4" value="" style="endArrow=classic;html=1;" parent="1" source="zookeeper" target="kafka-broker" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn6" value="" style="endArrow=classic;html=1;" parent="1" source="kafka-connect" target="kafka-broker" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn7" value="" style="endArrow=classic;html=1;" parent="1" source="n8n-worker" target="redis" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn8" value="" style="endArrow=classic;html=1;dashed=1;" parent="1" source="kowl" target="kafka-broker" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="640" y="410"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="conn9" value="" style="endArrow=classic;html=1;dashed=1;" parent="1" source="adminer" target="postgres" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn10" value="" style="endArrow=classic;html=1;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="kafka-connect-ui" target="kafka-connect" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="520" y="170"/>
+                            <mxPoint x="520" y="350"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="title" value="n8n PostgreSQL Change Data Capture (CDC) Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="160" y="10" width="500" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-box" value="Legend" style="swimlane;fontStyle=0;horizontal=1;startSize=30;horizontalStack=0;resizeParent=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="410" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend1" value="→ Data Flow" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="legend-box" vertex="1">
+                    <mxGeometry y="30" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend2" value="⇢ Monitoring Connection" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="legend-box" vertex="1">
+                    <mxGeometry y="60" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn11" value="" style="endArrow=classic;html=1;" parent="1" source="debezium" target="kafka-connect" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="schema-registry" target="n8n-worker">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="280" y="470"/>
+                            <mxPoint x="280" y="170"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="4" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="kafka-connect" target="n8n-worker">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="280" y="350"/>
+                            <mxPoint x="280" y="170"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

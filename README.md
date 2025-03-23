@@ -4,10 +4,14 @@
 - Forward database changes to using debezium to a Kafka stream via kafka-connect
 
 Starts n8n with PostgreSQL as database, a Worker as a separate container.
-Also initialises a kafka instance with a CDC stream monitoring a default n8n PostgreSQL database.
+Also initialises a kafka instance with a CDC stream monitoring a default n8n PostgreSQL database. Then configures a DBenzium connector to monitor the n8n database and forward changes to a Kafka topic.
 
-Includes services for review of the solution (these should be hardened or removed for production):
-  - Kowl (http://localhost:8080/)
+## Architecture
+
+![Architecture](docs/architecture.png)
+
+Includes services and exposes ports for review of the solution, these should be hardened or removed for production. This includes:
+  - Kowl UI (http://localhost:8080/)
   - Adminer (http://localhost:7775/)
   - Kafka Connect UI (http://localhost:8000/)
 
